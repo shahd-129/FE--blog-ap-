@@ -17,7 +17,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Homemenu from 'Component/HomeMenu/Homemenu';
 import Box from '@mui/material/Box';
-import CreatePost from 'View/CreatePost/CreatePost';
+import CreatePost from 'View/CreatePost';
 import { Grid } from '@mui/material';
 
 const ExpandMore = styled((props) => {

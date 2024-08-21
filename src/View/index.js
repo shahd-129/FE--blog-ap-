@@ -1,3 +1,5 @@
-export {default as Home} from './Home/Home'
-export {default as Login} from './Login/Login'
-export {default as Signup} from './SignUp/Signup'
+export {default as Home} from '../View/Home'
+export {default as CreatePost} from '../View/CreatePost'
+export {default as SignUp} from '../View/SignUp'
+export {default as Login} from '../View/Login'
+
