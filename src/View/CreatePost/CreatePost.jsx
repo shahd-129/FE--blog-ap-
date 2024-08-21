@@ -1,66 +1,93 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import React, { useState } from 'react';
+import { Button, TextField, Box, Typography, Avatar } from '@mui/material';
+import { useCreatePostMutation } from '../../Redux/Api/postApi';
+import { useSelector } from 'react-redux';
 
-export default function CreatePost() {
-  const [open, setOpen] = React.useState(false);
+export default function CreatePost({ refreshPosts }) {
+  const userId = useSelector((state) => state.user.userId);
+  const [createPost] = useCreatePostMutation();
+  const [image, setImage] = useState(null);
+  const [content, setContent] = useState('');
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  function handleImage(e) {
+    setImage(e.target.files[0]);
+  }
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('content', content);
+    formData.append('userId', userId); 
+    if (image) {
+      formData.append('image', image);
+    }
+
+    try {
+      const req = await createPost(formData).unwrap();
+      console.log(req);
+      setContent('');
+      setImage(null);
+      if (refreshPosts) refreshPosts();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
-    <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        create post
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          component: 'form',
-          onSubmit: (event) => {
-            event.preventDefault();
-            const formData = new FormData(event.currentTarget);
-            const formJson = Object.fromEntries(formData.entries());
-            const email = formJson.email;
-            console.log(email);
-            handleClose();
-          },
-        }}
-      >
-        <DialogTitle>Subscribe</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="name"
-            name="email"
-            label="Email Address"
-            type="email"
-            fullWidth
-            variant="standard"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Subscribe</Button>
-        </DialogActions>
-      </Dialog>
-    </React.Fragment>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: 3,
+        backgroundColor: '#fff',
+        borderRadius: 2,
+        boxShadow: 3,
+        marginBottom: 5,
+        width: '100%',
+        maxWidth: 600,
+        margin: '0 auto',
+      }}>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 2, width: '100%' }}>
+        <Avatar sx={{ bgcolor: 'red'[500], width: 56, height: 56 }}>
+          <img src='' alt="User Avatar" style={{ width: '50%', height: '50%', borderRadius: '50%' }} />
+        </Avatar>
+        <Typography variant="body1" sx={{ marginLeft: 2 }}>
+          User
+        </Typography>
+      </Box>
+
+      <TextField
+        label="Content"
+        multiline
+        rows={4}
+        variant="outlined"
+        sx={{ marginBottom: 2, width: '100%', backgroundColor: '#3a3b3c' }}
+        onChange={(e) => setContent(e.target.value)}
+        value={content}
+      />
+      <TextField
+        type="file"
+        accept="image/*"
+        variant="outlined"
+        sx={{ marginBottom: 2, width: '100%', backgroundColor: '#3a3b3c' }}
+        onChange={handleImage}
+      />
+
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, width: '100%' }}>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          sx={{ marginLeft: 'auto' }}
+        >
+          Submit
+        </Button>
+      </Box>
+    </Box>
   );
 }

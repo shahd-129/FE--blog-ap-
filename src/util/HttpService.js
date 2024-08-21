@@ -9,7 +9,6 @@ const HttpService = {
   post: axios.post,
   put: axios.put,
   delete: axios.delete,
-  request: axios.request,
   setJwt,
 };
 

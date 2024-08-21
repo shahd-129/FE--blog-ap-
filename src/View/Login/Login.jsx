@@ -1,10 +1,10 @@
 import { Box, Button, CircularProgress, TextField, Typography } from '@mui/material';
-import { useLoginMutation } from '../../Api/Authapi';
+import { useLoginMutation } from '../../Redux/Api/Authapi';
 import Joi from 'joi';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setToken } from '../../Redux/tokenSlice/tokenSlice';
+import { setToken } from '../../Redux/Slices/tokenSlice';
 
 
 export default function Signup() {

@@ -8,7 +8,7 @@ import { useDeletePostMutation, useUpdatePostMutation } from '../../Redux/Api/po
 import { useSelector } from 'react-redux';
 
 export default function Homemenu() {
-  const userId = useSelector((state) => state.user.userId);
+  const postId = useSelector((state) => state.user.postId);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [deletePost] = useDeletePostMutation()
@@ -24,13 +24,8 @@ export default function Homemenu() {
 
 
   const handleDeletePost = async () => {
-    // if (!userId) {
-    //   console.error('Post ID is missing, cannot delete the post');
-    //   return;
-    // }
-  
     try {
-      await deletePost(userId).unwrap();  // Ensure postId is passed correctly
+      await deletePost(postId).unwrap(); 
       console.log('Post deleted successfully');
     } catch (error) {
       console.error(error);
@@ -38,10 +33,6 @@ export default function Homemenu() {
     handleClose();
   };
   
-
-
-
-
 
   const handleUpdatePost = () => {
     updatePost()

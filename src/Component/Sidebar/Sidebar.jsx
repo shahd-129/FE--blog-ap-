@@ -1,20 +1,20 @@
 import React from 'react';
-import { Box, List, ListItem, ListItemIcon, ListItemText, Avatar, Typography, Link } from '@mui/material';
-
+import { Box, List, ListItem, ListItemIcon, ListItemText, Avatar, Typography, Link, Grid } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import CreateIcon from '@mui/icons-material/Create';
 import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
 
-const navigate =  useNavigate()
-function createPost(){
-    navigate('/create-post')
-}
+  const navigate = useNavigate();
 
-
+  function createPost() {
+    navigate('/create-post');
+  }
 
   return (
+    <Grid container spacing={3} sx={{ padding: 5 }}>
+    <Grid item xs={12} md={3}>
     <Box sx={{
       width: 300,
       height: 'calc(100vh - 50px)',
@@ -25,7 +25,10 @@ function createPost(){
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
-      overflow: 'hidden'
+      position: 'fixed',
+      top:65, 
+      left: 0,
+      overflow: 'auto'
     }}>
       <Box sx={{ textAlign: 'center' }}>
         <Avatar src="profile-pic.jpg" alt="Profile Picture" sx={{ width: 50, height: 50, margin: 'auto' }} />
@@ -33,13 +36,11 @@ function createPost(){
         <Link href='#' variant="body2" sx={{ color: '#571f74', textDecoration: 'none' }}>See your profile</Link>
       </Box>
       <List>
-        <ListItem button>
+        <ListItem button onClick={createPost}>
           <ListItemIcon>
             <CreateIcon />
           </ListItemIcon>
-
-          <ListItemText onClick={createPost} primary="Create Post" />
-
+          <ListItemText primary="Create Post" />
         </ListItem>
         <ListItem button>
           <ListItemIcon>
@@ -49,12 +50,9 @@ function createPost(){
         </ListItem>
       </List>
     </Box>
+    </Grid>
+    </Grid>
   );
 };
 
 export default Sidebar;
-
-
-
-
-
