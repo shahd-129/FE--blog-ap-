@@ -14,10 +14,11 @@ export const PostApi = postApi.injectEndpoints({
     }),
 
     updatePost: builder.mutation({
-      query: ({ data, userId }) => ({ 
-        url: `/update/${userId}`, 
+      query: ({ data, id }) => ({ 
+        url: `/update/${id}`, 
         method: "PUT", 
         body: data ,
+        invalidatesTags: ["Post"],
         headers: {
           token: localStorage.getItem("token")
         }
@@ -25,9 +26,19 @@ export const PostApi = postApi.injectEndpoints({
     }),
 
     deletePost: builder.mutation({
-      query: ({ id }) => ({ 
+      query: ( id ) => ({ 
         url: `/delete/${id}`, 
         method: "DELETE" ,
+        invalidatesTags: ["Post"],
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      })
+    }),
+    addReact: builder.mutation({
+      query: ( id ) => ({ 
+        url: `/like/${id}`, 
+        method: "PUT" ,
         headers: {
           token: localStorage.getItem("token")
         }
@@ -39,5 +50,6 @@ export const PostApi = postApi.injectEndpoints({
 export const {
   useCreatePostMutation,
   useDeletePostMutation,
-  useUpdatePostMutation
+  useUpdatePostMutation,
+  useAddReactMutation
 } = PostApi;

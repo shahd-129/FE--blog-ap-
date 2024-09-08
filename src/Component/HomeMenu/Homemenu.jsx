@@ -1,18 +1,21 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useDeletePostMutation, useUpdatePostMutation } from '../../Redux/Api/postApi';
-import { useSelector } from 'react-redux';
+import { useDeletePostMutation } from '../../Redux/Api/postApi';
+import { Box } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPostId } from '../../Redux/Slices/tokenSlice';
+import { useState } from 'react';
+import CustomModal from 'View/updataPost';
 
-export default function Homemenu() {
-  const postId = useSelector((state) => state.user.postId);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+export default function Homemenu({ postId , userId ,  contentPost , imagePost }) {  
+  const userToken = useSelector((state) => state.token?.user?.userId);  
+  const dispatch = useDispatch();
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const [deletePost] = useDeletePostMutation()
-  const [updatePost] = useUpdatePostMutation()
+  const [deletePost] = useDeletePostMutation();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -22,62 +25,37 @@ export default function Homemenu() {
     setAnchorEl(null);
   };
 
-
   const handleDeletePost = async () => {
     try {
-      await deletePost(postId).unwrap(); 
+      dispatch(setPostId(postId));
+      await deletePost(postId).unwrap();
       console.log('Post deleted successfully');
     } catch (error) {
       console.error(error);
     }
     handleClose();
   };
-  
-
-  const handleUpdatePost = () => {
-    updatePost()
-    console.log('Update Post clicked');
-    handleClose();
-  };
-
+    
   return (
-    <div>
-      <IconButton
-        aria-label="more"
-        id="long-button"
-        aria-controls={open ? 'long-menu' : undefined}
-        aria-expanded={open ? 'true' : undefined}
-        aria-haspopup="true"
-        onClick={handleClick}
-      >
-        <MoreVertIcon />
-      </IconButton>
-      <Menu
-        id="long-menu"
-        MenuListProps={{
-          'aria-labelledby': 'long-button',
-        }}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          style: {
-            maxHeight: 48 * 4.5,
-            width: '20ch',
-          },
-        }}
-      >
-        <MenuItem onClick={handleDeletePost} >
-          <Button variant="contained" color="error" >
-            Delete Post
-          </Button>
-        </MenuItem>
-        <MenuItem onClick={handleUpdatePost}>
-          <Button variant="contained" color="primary">
-            Update Post
-          </Button>
-        </MenuItem>
-      </Menu>
-    </div>
+    <>
+      {userId === userToken && (
+        <Box>
+          <IconButton onClick={handleClick}>
+            <MoreVertIcon />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            sx={{ maxHeight: 48 * 4.5, width: '25ch' }}
+          >
+            <MenuItem onClick={handleDeletePost}>Delete Post</MenuItem>
+            <MenuItem>
+              <CustomModal idPost={postId} currentContent={contentPost}  currentImage={imagePost} />
+            </MenuItem>
+          </Menu>
+        </Box>
+      )}
+    </>
   );
 }

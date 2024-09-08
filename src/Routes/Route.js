@@ -5,7 +5,7 @@ import {
   createBrowserRouter,
 } from "react-router-dom";
 import { Layout , AuthLayout } from "Component";
-import {Home , CreatePost , Login, SignUp} from "View"
+import {Home , Login, SignUp, Profile, UpdateUserData} from "View"
 export default function Route() {
   let router = createBrowserRouter([
     {
@@ -18,7 +18,8 @@ export default function Route() {
 
       children: [
         {path:"home", element:<Home/>},
-        {path:"create-post", element:<CreatePost/>},
+        {path:"profile/:id", element:<Profile/>},
+        {path:"update-user/:id", element:<UpdateUserData/>},
       ],
     },
     {

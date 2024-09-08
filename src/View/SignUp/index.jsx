@@ -17,7 +17,7 @@ export default function Signup() {
 
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-  const [signUp, { isLoading, error }] = useSignUpMutation()
+  const [signUp, { isLoading }] = useSignUpMutation()
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -97,7 +97,7 @@ export default function Signup() {
               SignUp Now....
             </Typography>
 
-            {error && <Typography sx={{ color: 'red' }}>{error.data.message}</Typography>}
+            {/* {error && <Typography sx={{ color: 'red' }}>{error.data.message}</Typography>} */}
             <TextField
               value={inputValue.name}
               name="name"

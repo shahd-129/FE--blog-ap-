@@ -1,34 +1,34 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, TextField, Box, Typography, Avatar } from '@mui/material';
 import { useCreatePostMutation } from '../../Redux/Api/postApi';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserId } from '../../Redux/Slices/tokenSlice';
 
-export default function CreatePost({ refreshPosts }) {
-  const userId = useSelector((state) => state.user.userId);
+
+export default function CreatePost({ refreshPosts , userName }) {
+  
+  const userId = useSelector((state) => state.token?.user?.userId);
   const [createPost] = useCreatePostMutation();
   const [image, setImage] = useState(null);
   const [content, setContent] = useState('');
-
+  const dispatch = useDispatch()
   function handleImage(e) {
     setImage(e.target.files[0]);
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
-
+    dispatch(setUserId(userId))
     const formData = new FormData();
     formData.append('content', content);
-    formData.append('userId', userId); 
-    if (image) {
-      formData.append('image', image);
-    }
+    formData.append('userId', userId);
+    formData.append('image', image);
 
     try {
-      const req = await createPost(formData).unwrap();
-      console.log(req);
+      await createPost(formData).unwrap();
       setContent('');
       setImage(null);
-      if (refreshPosts) refreshPosts();
+     refreshPosts();
     } catch (error) {
       console.log(error);
     }
@@ -42,22 +42,22 @@ export default function CreatePost({ refreshPosts }) {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: 3,
-        backgroundColor: '#fff',
+        padding: 2,
+        backgroundColor: '#463f3f',
         borderRadius: 2,
         boxShadow: 3,
-        marginBottom: 5,
+        marginBottom: 2,
         width: '100%',
         maxWidth: 600,
         margin: '0 auto',
       }}>
 
       <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 2, width: '100%' }}>
-        <Avatar sx={{ bgcolor: 'red'[500], width: 56, height: 56 }}>
+        <Avatar sx={{ bgcolor: 'red'[500], width: 45, height: 45 }}>
           <img src='' alt="User Avatar" style={{ width: '50%', height: '50%', borderRadius: '50%' }} />
         </Avatar>
         <Typography variant="body1" sx={{ marginLeft: 2 }}>
-          User
+          user
         </Typography>
       </Box>
 
@@ -65,8 +65,8 @@ export default function CreatePost({ refreshPosts }) {
         label="Content"
         multiline
         rows={4}
-        variant="outlined"
-        sx={{ marginBottom: 2, width: '100%', backgroundColor: '#3a3b3c' }}
+        variant="filled"
+        sx={{ marginBottom: 2, width: '100%', backgroundColor: '#463f3f' }}
         onChange={(e) => setContent(e.target.value)}
         value={content}
       />
@@ -74,7 +74,7 @@ export default function CreatePost({ refreshPosts }) {
         type="file"
         accept="image/*"
         variant="outlined"
-        sx={{ marginBottom: 2, width: '100%', backgroundColor: '#3a3b3c' }}
+        sx={{ marginBottom: 2, width: '100%', backgroundColor: '#463f3f' }}
         onChange={handleImage}
       />
 

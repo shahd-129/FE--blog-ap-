@@ -2,4 +2,7 @@ export {default as Home} from '../View/Home'
 export {default as CreatePost} from '../View/CreatePost'
 export {default as SignUp} from '../View/SignUp'
 export {default as Login} from '../View/Login'
-
+export {default as UpdatePost} from '../View/updataPost'
+export {default as Profile} from '../View/Profile'
+export {default as UpdateUserData} from '../View/updateUserData'
+export {default as DeleteUser} from '../View/DeleteUser'
