@@ -1,5 +1,4 @@
 
-
 import { createSlice } from "@reduxjs/toolkit";
 import { jwtDecode } from "jwt-decode";
 
@@ -7,7 +6,6 @@ import { jwtDecode } from "jwt-decode";
    token: null,
    user: null,
    post: [],
-   mode: "light",
    comment:[]
  };
 
@@ -15,9 +13,6 @@ import { jwtDecode } from "jwt-decode";
    name: 'token',
    initialState,
    reducers: {
-    setMode: (state) => {
-      state.mode = state.mode === "light" ? "dark" : "light";
-    },
      setToken: (state, action) => {
        state.token = action.payload;
        localStorage.setItem('token', action.payload);
