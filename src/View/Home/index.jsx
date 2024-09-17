@@ -17,13 +17,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import Box from '@mui/material/Box';
-import { CreatePost } from 'View';
 import { Grid, TextField, Button } from '@mui/material';
 import { useCreateCommentMutation, useDeleteCommentMutation, useUpdateCommentMutation } from '../../Redux/Api/commentApi';
 // import { useAddReactMutation } from '../../Redux/Api/postApi';
 import Homemenu from '../../Component/HomeMenu/Homemenu';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { CreatePost } from 'View';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -39,7 +39,7 @@ const ExpandMore = styled((props) => {
 export default function Home() {
   const [expanded, setExpanded] = useState(false);
   const [post, setPost] = useState([]);
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState([]);
   const [showCommentInput, setShowCommentInput] = useState(null);
   const [editCommentId, setEditCommentId] = useState(null);
   const [editCommentText, setEditCommentText] = useState('');
@@ -86,6 +86,8 @@ export default function Home() {
           post._id === postId ? { ...post, comments: [...post.comments, res.data] } : post
         )
       );
+      console.log(post._id);
+      
       setComment('');
     } catch (error) {
       console.error(error);
@@ -98,7 +100,6 @@ export default function Home() {
       setPost((prevPosts) =>
         prevPosts.map((post) => ({
           ...post,
-
           comments: post.comments.map((comment) =>
             comment._id === editCommentId
               ? { ...comment, text: res.data.text } : comment
@@ -112,9 +113,10 @@ export default function Home() {
     }
   };
 
+
   const handleDeleteComment = async (commentId) => {
     try {
-      await deleteComment(commentId).unwrap();  
+      await deleteComment(commentId).unwrap();
       setPost((prevPosts) =>
         prevPosts.map((post) => ({
           ...post,
@@ -125,13 +127,6 @@ export default function Home() {
       console.error(err);
     }
   };
-
-
-
-  const handleLikeClick = async (postId) => {
-
-  };
-  
 
   const handleEditComment = (commentId, commentText) => {
     setEditCommentId(commentId);
@@ -152,9 +147,10 @@ export default function Home() {
               key={el?._id}
               sx={{
                 maxWidth: 600,
+                width: 600,
                 borderRadius: 8,
                 padding: 2,
-                background: '#463f3f',
+                background: '#1c1c1e',
                 boxShadow: 3,
                 marginBottom: 2,
                 overflow: 'hidden',
@@ -181,11 +177,12 @@ export default function Home() {
                   height="auto"
                   image={el?.image?.url}
                   alt="Post image"
-                  sx={{ objectFit: 'cover' }}
+                  // sx={{ objectFit: 'cover' }}
+                  sx={{ width: '100%', cursor: 'pointer', objectFit: 'cover' }}
                 />
               </CardContent>
               <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites" onClick={() => handleLikeClick(el._id)}>
+                <IconButton aria-label="add to favorites">
                   <FavoriteIcon style={{ color: el?.likes ? 'red' : 'grey' }} />
                 </IconButton>
                 <IconButton aria-label="comment" onClick={() => handleCommentIconClick(el._id)}>
@@ -264,4 +261,4 @@ export default function Home() {
       </Grid>
     </>
   );
-}
+} 

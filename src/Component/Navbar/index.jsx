@@ -31,7 +31,7 @@ export default function Navbar() {
 
     return (
         <>
-            <AppBar position="fixed" sx={{ background: '#000' }}>
+            <AppBar position="fixed" sx={{ background: '#18191a' }}>
                 <Toolbar>
                     <Typography  onClick={goToHome} variant="h6" component="div" sx={{ flexGrow: 1 , cursor:"pointer" }}>
                         Blog App
