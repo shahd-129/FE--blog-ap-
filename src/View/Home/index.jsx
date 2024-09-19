@@ -17,6 +17,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import Box from '@mui/material/Box';
+import Badge from '@mui/material/Badge';
+
 import { Grid, TextField, Button } from '@mui/material';
 import { useCreateCommentMutation, useDeleteCommentMutation, useUpdateCommentMutation } from '../../Redux/Api/commentApi';
 // import { useAddReactMutation } from '../../Redux/Api/postApi';
@@ -83,11 +85,11 @@ export default function Home() {
       const res = await createComment({ postId, text: comment }).unwrap();
       setPost((prevPosts) =>
         prevPosts.map((post) =>
-          post._id === postId ? { ...post, comments: [...post.comments, res.data] } : post
+          post._id === postId ? { ...post, comments: [...post.comments, res.data], commentCount: post.commentCount + 1 } : post
         )
       );
       console.log(post._id);
-      
+
       setComment('');
     } catch (error) {
       console.error(error);
@@ -120,7 +122,8 @@ export default function Home() {
       setPost((prevPosts) =>
         prevPosts.map((post) => ({
           ...post,
-          comments: post.comments.filter((comment) => comment._id !== commentId)
+          comments: post.comments.filter((comment) => comment._id !== commentId),
+          commentCount: Math.max(post.commentCount - 1, 0)
         }))
       );
     } catch (err) {
@@ -163,12 +166,12 @@ export default function Home() {
                   </Avatar>
                 }
                 action={<Homemenu postId={el?._id} userId={el?.userId} imagePost={el?.image?.url} contentPost={el?.content} />}
-                title={<Link to={`/profile/${el.userId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                title={<Link to={`/profile/${el.userId}`} style={{ textDecoration: 'none', color: '#ffffff' }}>
                   {el?.userName}
                 </Link>}
-                subheader={new Date(el?.date).toLocaleDateString()}
+                subheader={<Typography variant="body2" color="#ffffff">{new Date(el?.date).toLocaleDateString()}</Typography>}
               />
-              <Typography variant="body2" color="#000">
+              <Typography variant="body2" color="#ffffff">
                 {el?.content}
               </Typography>
               <CardContent>
@@ -177,32 +180,34 @@ export default function Home() {
                   height="auto"
                   image={el?.image?.url}
                   alt="Post image"
-                  // sx={{ objectFit: 'cover' }}
                   sx={{ width: '100%', cursor: 'pointer', objectFit: 'cover' }}
                 />
               </CardContent>
               <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites">
-                  <FavoriteIcon style={{ color: el?.likes ? 'red' : 'grey' }} />
+                  <FavoriteIcon sx={{ color: '#1976d2' }} />
                 </IconButton>
-                <IconButton aria-label="comment" onClick={() => handleCommentIconClick(el._id)}>
-                  <CommentIcon />
-                </IconButton>
+                <Badge badgeContent={el?.commentCount} color="primary" overlap="circular">
+                  <IconButton aria-label="comment" onClick={() => handleCommentIconClick(el._id)}>
+                    <CommentIcon sx={{ color: '#1976d2' }} />
+                  </IconButton>
+                </Badge>
                 <ExpandMore
                   expand={expanded}
                   onClick={handleExpandClick}
                   aria-expanded={expanded}
                   aria-label="show more"
+                  sx={{ color: "#fff" }}
                 >
                   <ExpandMoreIcon />
                 </ExpandMore>
               </CardActions>
-              <Collapse in={expanded} timeout="auto" unmountOnExit>
+              <Collapse in={expanded} timeout="auto" unmountOnExit >
                 <CardContent>
-                  <Typography paragraph>Comments:</Typography>
+                  <Typography sx={{ color: '#fff' }} paragraph>Comments:</Typography>
                   {el.comments?.map((comment) => (
                     <Box key={comment?._id} sx={{ mt: 2 }}>
-                      <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                      <Typography variant="body2" sx={{ fontWeight: 'bold', color: "#fff" }}>
                         {comment.userName}
                       </Typography>
                       {editCommentId === comment?._id ? (
@@ -219,15 +224,15 @@ export default function Home() {
                         </Box>
                       ) : (
                         <>
-                          <Typography variant="body2">
+                          <Typography color='#fff' variant="body2">
                             {comment?.text}
                           </Typography>
                           {userId === comment.userId ?
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                              <IconButton onClick={() => handleEditComment(comment?._id, comment?.text)} aria-label="edit">
+                              <IconButton sx={{ color: '#1976d2' }} onClick={() => handleEditComment(comment?._id, comment?.text)} aria-label="edit">
                                 <EditIcon />
                               </IconButton>
-                              <IconButton onClick={() => handleDeleteComment(comment?._id)} aria-label="delete">
+                              <IconButton sx={{ color: '#1976d2' }} onClick={() => handleDeleteComment(comment?._id)} aria-label="delete">
                                 <DeleteIcon />
                               </IconButton>
                             </Box> : ""
