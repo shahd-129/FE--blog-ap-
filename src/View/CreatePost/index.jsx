@@ -6,7 +6,7 @@ import { setUserId } from '../../Redux/Slices/tokenSlice';
 // import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 
-export default function CreatePost({ refreshPosts }) {
+export default function CreatePost() {
   const userId = useSelector((state) => state.token?.user?.userId);
   const [createPost] = useCreatePostMutation();
   const [image, setImage] = useState(null);
@@ -29,7 +29,6 @@ export default function CreatePost({ refreshPosts }) {
       await createPost(formData).unwrap();
       setContent('');
       setImage(null);
-      refreshPosts();
     } catch (error) {
       console.log(error);
     }
