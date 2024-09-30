@@ -4,7 +4,6 @@ import axios from 'axios';
 import Homemenu from 'Component/HomeMenu/Homemenu';
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { clearToken } from '../../Redux/Slices/tokenSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -142,12 +141,6 @@ export default function Profile() {
                                         {post?.content}
                                     </Typography>
                                     <Box display="flex" justifyContent="space-between" alignItems="center">
-                                        <IconButton aria-label="add to favorites">
-                                            <FavoriteIcon color="error" />
-                                        </IconButton>
-                                        <Typography variant="caption" color="textSecondary">
-                                            {new Date(post?.date).toLocaleTimeString()}
-                                        </Typography>
                                     </Box>
                                 </CardContent>
                             </Card>

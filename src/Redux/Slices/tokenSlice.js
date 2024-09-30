@@ -47,5 +47,4 @@ import { jwtDecode } from "jwt-decode";
  });
 
  export const { setToken,setMode ,clearToken , setUserId , setPostId , setCommentId , incrementCommentCount , decrementCommentCount } = tokenSlice.actions;
-
  export default tokenSlice.reducer;

@@ -40,7 +40,7 @@ export default function Homemenu({ postId , userId ,  contentPost , imagePost })
     <>
       {userId === userToken && (
         <Box>
-          <IconButton onClick={handleClick}>
+          <IconButton onClick={handleClick} sx={{color: "white"}}>
             <MoreVertIcon />
           </IconButton>
           <Menu
