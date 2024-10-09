@@ -1,8 +1,10 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function Updateuser() {
+ const {t} = useTranslation()
     const [data, setData] = useState({
         name: '',
         phone: '',
@@ -74,7 +76,7 @@ export default function Updateuser() {
                         marginY={4}
                         color='#477cb1'
                     >
-                        Update Data
+                        {t("Update Data")} 
                     </Typography>
 
                     {/* {error && <Typography sx={{ color: 'red' }}>{error.data.message}</Typography>} */}
@@ -83,7 +85,7 @@ export default function Updateuser() {
                         name="name"
                         id="name"
                         type="text"
-                        label="Name"
+                        label={t("Name")}
                         variant="outlined"
                         sx={{ borderRadius: "50%", color: "#1da1f2" }}
                         onChange={handleChange}
@@ -94,7 +96,7 @@ export default function Updateuser() {
                         name="phone"
                         id="phone"
                         type="tel"
-                        label="Phone"
+                        label={t("phone")}
                         variant="outlined"
                         onChange={handleChange}
                         sx={{ borderRadius: "50%", color: "#1da1f2" }} />
@@ -105,14 +107,14 @@ export default function Updateuser() {
                         id="email"
                         type="email"
                         variant="outlined"
-                        label="Email"
+                        label={t("email")}
                         onChange={handleChange}
                         sx={{ borderRadius: "50%", color: "#1da1f2" }} />
 
                     <TextField
                         value={data?.password}
                         id="password"
-                        label="Password"
+                        label={t("Password")}
                         type="password"
                         autoComplete="current-password"
                         name="password"
@@ -123,7 +125,7 @@ export default function Updateuser() {
 
                     <>
                         <Button onClick={() => updateData(data._id)} sx={{ color: "#fff", background: "#1da1f2" }} type="submit" variant="contained">
-                            Update data
+                           {t("Update Data")} 
                         </Button>
                     </>
                 </Box>

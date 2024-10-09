@@ -1,0 +1,30 @@
+{
+    "signup":"SIGN UP Now...",
+    "Already have an account?":"Already have an account?",
+    "login" : "Login",
+    "Don't have an account?":"Don't have an account?",
+    "logout": "LogOut",
+     "title": "Blog App",
+     "Loading":"Loading....",
+     "commnets":"Comments",
+     "add comment":"add comment",
+     "update comment":"update comment",
+     "delete post":"delete post",
+     "update post":"update post",
+     "no posts avilable yet":"No Posts Avilable Yet",
+     "delete acc":"Delete Account",
+     "profile":"Profile",
+     "update acc":"Update Account",
+     "submit":"Submit",
+      "user":"User",
+      "Name":"Name",
+      "phone":"Phone" ,
+      "email":"Email",
+      "Password":"Password",
+      "What are you thinking?":"What are you thinking?",
+      "content":"Content",
+      "Update Data":"Update Data"
+
+     
+      
+}

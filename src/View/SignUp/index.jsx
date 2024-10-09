@@ -5,9 +5,11 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { validate } from 'util/joiValidation';
+import { useTranslation } from 'react-i18next';
 
 
 export default function Signup() {
+  const {t} = useTranslation()
   const [inputValue, setInputValue] = useState({
     email: '',
     name: '',
@@ -60,9 +62,9 @@ export default function Signup() {
 
   return (
     <>
-      <Box height="100vh" margin={0} display="flex" alignItems="center" justifyContent="center" backgroundColor={'#200930'}>
+      <Box height="100vh" display="flex" alignItems="center" justifyContent="center" backgroundColor={'#200930'}>
         <Box
-          height={500}
+          // height={500}
           width={500}
           my={5}
           mx={"auto"}
@@ -94,16 +96,16 @@ export default function Signup() {
               marginY={4}
               color='#477cb1'
             >
-              SignUp Now....
+             {t("signup")} 
             </Typography>
 
             {/* {error && <Typography sx={{ color: 'red' }}>{error.data.message}</Typography>} */}
             <TextField
               value={inputValue.name}
-              name="name"
+              name={t("Name")}
               id="name"
               type="text"
-              label="Name"
+              label={t("Name")}
               variant="outlined"
               sx={{ borderRadius: "50%", color: "#1da1f2" }}
               onChange={(event) => handleChange(event, 'name')}
@@ -112,10 +114,10 @@ export default function Signup() {
 
             <TextField
               value={inputValue.phone}
-              name="phone"
+              name={t("phone")}
               id="phone"
               type="tel"
-              label="Phone"
+              label={t("phone")}
               variant="outlined"
               onChange={(event) => handleChange(event, 'phone')}
               error={!!errors?.phone}
@@ -124,11 +126,11 @@ export default function Signup() {
 
             <TextField
               value={inputValue.email}
-              name="email"
+              name={t("email")}
               id="email"
               type="email"
               variant="outlined"
-              label="Email"
+              label={t("email")}
               onChange={(event) => handleChange(event, 'email')}
               error={!!errors?.email}
               helperText={errors?.email}
@@ -137,10 +139,10 @@ export default function Signup() {
             <TextField
               value={inputValue.password}
               id="password"
-              label="Password"
+              label={t("Password")}
               type="password"
               autoComplete="current-password"
-              name="password"
+              name={t("Password")}
               onChange={(event) => handleChange(event, 'password')}
               variant="outlined"
               error={!!errors?.password}
@@ -152,7 +154,7 @@ export default function Signup() {
               :
               <>
                 <Button sx={{ color: "#fff", background: "#1da1f2" }} type="submit" variant="contained">
-                  Sign Up
+                 {t("signup")}
                 </Button>
                 <Link
                   component="button"
@@ -162,7 +164,7 @@ export default function Signup() {
                     backToLogin();
                   }}
                 >
-                  Already have an account?
+                 {t("Already have an account?")}
                 </Link>
               </>}
           </Box>

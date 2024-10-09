@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUserId } from '../../Redux/Slices/tokenSlice';
 // import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import { t } from 'i18next';
 
 export default function CreatePost() {
   const userId = useSelector((state) => state.token?.user?.userId);
@@ -64,7 +65,7 @@ export default function CreatePost() {
         </Typography>
       </Box>
       <TextField
-        placeholder="What are you thinking?"
+        placeholder={t("What are you thinking?")}
         multiline
         rows={2}
         variant="outlined"
@@ -97,7 +98,7 @@ export default function CreatePost() {
         color="primary"
         sx={{ width: '100%', marginTop: 1 }}
       >
-        Submit
+        {t("submit")}
       </Button>
     </Box>
   );

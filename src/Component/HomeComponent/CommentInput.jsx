@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { useCreateCommentMutation } from '../../Redux/Api/commentApi';
 import { Box, TextField, Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 export default function CommentInput({ postId }) {
     const [createComment] = useCreateCommentMutation();
     const [comment, setComment] = useState('');
+    const {t} = useTranslation()
 
     const handleCommentChange = (e) => {
         setComment(e.target.value);
@@ -35,7 +37,7 @@ export default function CommentInput({ postId }) {
                 }}
             />
             <Button variant="contained" color="primary" sx={{ mt: 1 }} onClick={handleCommentSubmit}>
-                Submit
+                {t("submit")}
             </Button>
         </Box>
     )

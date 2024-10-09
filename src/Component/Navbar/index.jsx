@@ -1,18 +1,20 @@
-import { AppBar, IconButton, Toolbar, Typography, Menu, MenuItem, Avatar } from '@mui/material';
+import { AppBar, IconButton, Toolbar, Typography, Menu, MenuItem, Avatar, Button } from '@mui/material';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { clearToken} from '../../Redux/Slices/tokenSlice';
-import {  AccountCircle } from '@mui/icons-material';
+import { clearToken } from '../../Redux/Slices/tokenSlice';
+import { AccountCircle } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
 
 export default function Navbar() {
+    const { t, i18n } = useTranslation()
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const userId = useSelector((state) => state.token?.user?.userId)
-    
+
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-    
+
     function Logout() {
         dispatch(clearToken());
         navigate('/login');
@@ -33,9 +35,16 @@ export default function Navbar() {
         <>
             <AppBar position="fixed" sx={{ background: '#18191a' }}>
                 <Toolbar>
-                    <Typography  onClick={goToHome} variant="h6" component="div" sx={{ flexGrow: 1 , cursor:"pointer" }}>
-                        Blog App
+                    <Typography onClick={goToHome} variant="h6" component="div" sx={{ flexGrow: 1, cursor: "pointer" }}>
+                        {t("title")}
                     </Typography>
+                    {i18n.language === "en"
+                        ? <Button onClick={() => i18n.changeLanguage('ar')}>العربية</Button>
+                        : <Button onClick={() => i18n.changeLanguage('en')}>en</Button>
+                    }
+
+
+
                     <IconButton
                         onClick={handleMenuOpen}
                         sx={{ marginLeft: 2 }}
@@ -44,9 +53,10 @@ export default function Navbar() {
                             <AccountCircle />
                         </Avatar>
                     </IconButton>
-                
+
                 </Toolbar>
             </AppBar>
+
             <Toolbar />
             <Menu
                 anchorEl={anchorEl}
@@ -59,20 +69,20 @@ export default function Navbar() {
                     },
                 }}
             >
-               <Link to={"/profile/" + userId} style={{ textDecoration: 'none', color: 'inherit' }}>
-               <MenuItem onClick={() => { handleMenuClose() }}>
-                    Profile
-                </MenuItem>
-               </Link> 
+                <Link to={"/profile/" + userId} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <MenuItem onClick={() => { handleMenuClose() }}>
+                        {t("profile")}
+                    </MenuItem>
+                </Link>
                 <MenuItem onClick={Logout}>
-                    Logout
+                    {t("logout")}
                 </MenuItem>
                 <Link to={"/update-user/" + userId} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <MenuItem>
-                    Update Account
-                </MenuItem>
+                    <MenuItem>
+                        {t("update acc")}
+                    </MenuItem>
                 </Link>
-               
+
             </Menu>
         </>
     );

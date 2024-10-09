@@ -5,8 +5,9 @@ import { Grid } from '@mui/material';
 import { CreatePost } from 'View';
 import { useGetPostsQuery } from '../../Redux/Api/postApi';
 import PostCard from 'Component/HomeComponent/PostCard';
+import { useTranslation } from 'react-i18next';
 export default function Home() {
-   
+   const {t} = useTranslation()
   const [post, setPost] = useState()
   const { data: posts = [], isLoading } = useGetPostsQuery({});
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function Home() {
       <Box sx={{ display: 'flex', flexDirection: 'column', paddingTop: 5, alignItems: 'center', gap: 3, width: '100%' }}>
         <CreatePost />
         {isLoading ? (
-          <Typography color={"#fff"}>Loading...</Typography>
+          <Typography color={"#fff"}>{t("Loading")}</Typography>
         ) : (
           posts?.map((post) =><PostCard post={post} /> )
         )}

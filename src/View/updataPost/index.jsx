@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { useUpdatePostMutation } from '../../Redux/Api/postApi'; 
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const style = {
   position: 'absolute',
@@ -26,6 +27,7 @@ export default function CustomModal({ idPost , currentContent , currentImage  })
   const [open, setOpen] = useState(false);
   const [content, setContent] = useState(currentContent);
   const [image, setImage] = useState(currentImage);
+  const {t} = useTranslation()
   const [updatePost, { isLoading}] = useUpdatePostMutation();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -54,7 +56,7 @@ export default function CustomModal({ idPost , currentContent , currentImage  })
 
   return (
     <Box>
-      <Button onClick={handleOpen}>Update post</Button>
+      <Button onClick={handleOpen}>{t("update post")}</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -64,7 +66,7 @@ export default function CustomModal({ idPost , currentContent , currentImage  })
         <Box component="form" onSubmit={handleSubmit} sx={style}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              Edit Post
+            {t("update post")}
             </Typography>
             <IconButton onClick={handleClose}>
               <CloseIcon />
@@ -76,12 +78,12 @@ export default function CustomModal({ idPost , currentContent , currentImage  })
               <img src='' alt="User Avatar" style={{ width: '50%', height: '50%', borderRadius: '50%' }} />
             </Avatar>
             <Typography variant="body1" sx={{ marginLeft: 2 }}>
-              User
+             {t("user")}
             </Typography>
           </Box>
 
           <TextField
-            label="Content"
+            label={t("content")}
             multiline
             rows={4}
             variant="outlined"
@@ -105,7 +107,7 @@ export default function CustomModal({ idPost , currentContent , currentImage  })
               sx={{ marginLeft: 'auto' }}
               disabled={isLoading}
             >
-              {isLoading ? 'Updating...' : 'Update'}
+              {isLoading ? t("Loading") : t("submit")}
             </Button>
           </Box>
         </Box>

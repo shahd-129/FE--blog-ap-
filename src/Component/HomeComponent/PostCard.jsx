@@ -9,6 +9,7 @@ import CommentIcon from '@mui/icons-material/Comment';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
 import { HomeMenu } from 'Component';
+import { useTranslation } from 'react-i18next';
 
 const ExpandMoreButton = styled((props) => {
     const { expand, ...other } = props;
@@ -24,7 +25,7 @@ const ExpandMoreButton = styled((props) => {
 export default function PostCard({
     post
 }) {
-
+    const {t} = useTranslation()
     const [expanded, setExpanded] = useState(false);
     const [showCommentInput, setShowCommentInput] = useState(null);
 
@@ -59,7 +60,7 @@ export default function PostCard({
                     </Avatar>
                 }
                 action={<HomeMenu postId={post?._id} userId={post?.userId} imagePost={post?.image?.url} contentPost={post?.content} />}
-                title={<Link to={`/profile/${post.userId}`} style={{ textDecoration: 'none', color: '#ffffff' }}>
+                title={<Link to={`/profile/${post?.userId}`} style={{ textDecoration: 'none', color: '#ffffff' }}>
                     {post?.userName}
                 </Link>}
                 subheader={<Typography variant="body2" color="#ffffff">{new Date(post?.date).toLocaleDateString()}</Typography>}
@@ -98,10 +99,10 @@ export default function PostCard({
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                    <Typography sx={{ color: '#fff' }} paragraph>Comments:</Typography>
+                    <Typography sx={{ color: '#fff' }} paragraph>{t("commnets")}:</Typography>
                     {post?.comments?.map((comment) => (
                         <Comment
-                            key={comment._id}
+                            key={comment?._id}
                             comment={comment}
                             userId={post.userId}
                             editCommentId={editCommentId}

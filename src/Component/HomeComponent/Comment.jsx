@@ -3,6 +3,7 @@ import { Box, Typography, TextField, Button, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDeleteCommentMutation, useUpdateCommentMutation } from '../../Redux/Api/commentApi';
+import { useTranslation } from 'react-i18next';
 
 export default function Comment({
     userId,
@@ -10,7 +11,7 @@ export default function Comment({
     editCommentId,
     setEditCommentId,
 }) {
-
+    const {t} = useTranslation()
     const [deleteComment] = useDeleteCommentMutation();
     const [updateComment] = useUpdateCommentMutation();
 
@@ -46,7 +47,7 @@ export default function Comment({
 
         <Box key={comment?._id} sx={{ mt: 2 }}>
             <Typography variant="body2" sx={{ fontWeight: 'bold', color: "#fff" }}>
-                {comment.userName}
+                {comment?.userName}
             </Typography>
             {editCommentId === comment?._id ? (
                 <Box>
@@ -57,7 +58,7 @@ export default function Comment({
                         onChange={handleEditCommentChange}
                     />
                     <Button variant="contained" color="primary" sx={{ mt: 1 }} onClick={handelUpdateComment}>
-                        Update Comment
+                      {t("update comment")}
                     </Button>
                 </Box>
             ) : (

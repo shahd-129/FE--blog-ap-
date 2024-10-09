@@ -5,9 +5,11 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setToken } from '../../Redux/Slices/tokenSlice';
+import { useTranslation } from 'react-i18next';
 
 
 export default function Signup() {
+  const {t} = useTranslation()
   const [inputValue, setInputValue] = useState({
     email: '',
     password: ''
@@ -113,7 +115,7 @@ export default function Signup() {
             marginY={4}
             color='#477cb1'
           >
-            Login Now....
+          {t("login")}
           </Typography>
 
 
@@ -121,11 +123,11 @@ export default function Signup() {
           {error && <Typography sx={{ color: 'red' }}>{error.data.message}</Typography>}
           <TextField
             value={inputValue.email}
-            name="email"
+            name={t("email")}
             id="email"
             type="email"
             variant="outlined"
-            label="Email"
+            label={t("email")}
             onChange={(event) => handleChange(event, 'email')}
             error={!!errors?.email}
             helperText={errors?.email}
@@ -134,10 +136,10 @@ export default function Signup() {
           <TextField
             value={inputValue.password}
             id="password"
-            label="Password"
+            label={t("Password")}
             type="password"
             autoComplete="current-password"
-            name="password"
+            name={t("Password")}
             onChange={(event) => handleChange(event, 'password')}
             variant="outlined"
             error={!!errors?.password}
@@ -149,7 +151,7 @@ export default function Signup() {
             :
             <>
               <Button sx={{ color: "#fff", background: "#1da1f2" }} type="submit" variant="contained">
-                Login
+               {t("login")}
               </Button>
               <Link
                 component="button"
@@ -159,7 +161,7 @@ export default function Signup() {
                   backToSignup();
                 }}
               >
-                Don't have an account?
+              {t("Don't have an account?")}
               </Link>
             </>}
 
