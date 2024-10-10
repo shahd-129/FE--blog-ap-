@@ -18,23 +18,35 @@ const ExpandMoreButton = styled((props) => {
     transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
     marginLeft: 'auto',
     transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
+        duration: theme.transitions.duration.shortest,
     }),
 }));
+
+
+// const convertToArabicNumbers = (str) => {
+//     const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+//     return str.replace(/\d/g, (digit) => arabicNumbers[digit]);
+//   };
 
 export default function PostCard({
     post
 }) {
-    const {t} = useTranslation()
+    const { t} = useTranslation();
+    // const formatDate = (date) => {
+     
+    //     const formattedDate = new Date(date).toLocaleDateString('en-US'); 
+    //     return i18n.language === 'ar' ? convertToArabicNumbers(formattedDate) : formattedDate;
+    //   };
+    
     const [expanded, setExpanded] = useState(false);
     const [showCommentInput, setShowCommentInput] = useState(null);
 
     const [editCommentId, setEditCommentId] = useState(null);
-    
+
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
-    
+
     const handleCommentIconClick = (postId) => {
         setShowCommentInput((prev) => (prev === postId ? null : postId));
         setEditCommentId(null);
@@ -69,13 +81,13 @@ export default function PostCard({
                 {post?.content}
             </Typography>
             <CardContent>
-                <CardMedia
-                    component="img"
-                    height="auto"
-                    image={post?.image?.url}
-                    alt="Post image"
-                    sx={{ width: '100%', cursor: 'pointer', objectFit: 'cover' }}
-                />
+                {post.image?.url && (
+                    <CardMedia
+                        component="img"
+                        image={post.image.url}
+                        alt="Post image"
+                    />
+                )}
             </CardContent>
             <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites">
@@ -86,7 +98,7 @@ export default function PostCard({
                         <CommentIcon sx={{ color: '#1976d2' }} />
                     </IconButton>
                 </Badge>
-               
+
                 <ExpandMoreButton
                     expand={expanded}
                     onClick={handleExpandClick}
@@ -107,6 +119,7 @@ export default function PostCard({
                             userId={post.userId}
                             editCommentId={editCommentId}
                             setEditCommentId={setEditCommentId}
+                            postId={post?.id}
                         />
                     ))}
 

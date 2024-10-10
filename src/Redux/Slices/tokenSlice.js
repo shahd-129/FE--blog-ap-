@@ -33,16 +33,21 @@ import { jwtDecode } from "jwt-decode";
     setCommentId: (state , action) =>{
       state.comment = action.payload
     }, 
-     incrementCommentCount: (state, action) => {
+    incrementCommentCount: (state, action) => {
       state.post = state.post.map(post =>
-        post._id === action.payload.postId ? { ...post, commentCount: post.commentCount + 1 } : post
+        post._id === action.payload.postId 
+          ? { ...post, commentCount: (post.commentCount || 0) + 1 } 
+          : post
       );
     },
     decrementCommentCount: (state, action) => {
       state.post = state.post.map(post =>
-        post._id === action.payload.postId ? { ...post, commentCount: post.commentCount - 1 } : post
+        post._id === action.payload.postId && post.commentCount > 0
+          ? { ...post, commentCount: post.commentCount - 1 }
+          : post
       );
     },
+    
    },
  });
 

@@ -4,20 +4,25 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDeleteCommentMutation, useUpdateCommentMutation } from '../../Redux/Api/commentApi';
 import { useTranslation } from 'react-i18next';
+import { decrementCommentCount } from '../../Redux/Slices/tokenSlice';
+import { useDispatch } from 'react-redux';
 
 export default function Comment({
     userId,
     comment,
     editCommentId,
     setEditCommentId,
+    postId
 }) {
     const {t} = useTranslation()
     const [deleteComment] = useDeleteCommentMutation();
     const [updateComment] = useUpdateCommentMutation();
+    const dispatch = useDispatch()
 
     const handelDeleteComment = async () => {
         try {
             await deleteComment(comment?._id).unwrap();
+            dispatch(decrementCommentCount({ postId }));
         } catch (err) {
             console.error( err);
         }

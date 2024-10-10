@@ -7,8 +7,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { clearToken } from '../../Redux/Slices/tokenSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PostCard from 'Component/HomeComponent/PostCard';
-import Comment from 'Component/HomeComponent/Comment';
-import CommentInput from 'Component/HomeComponent/CommentInput';
 import { useTranslation } from 'react-i18next';
 
 export default function Profile() {
@@ -18,7 +16,8 @@ export default function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.token?.user?.userId);
-const {t} = useTranslation()
+  const { t } = useTranslation();
+
   // Fetch profile data
   async function getProfileData(userId) {
     try {
@@ -50,7 +49,7 @@ const {t} = useTranslation()
       console.error(error);
     }
   }
- 
+
   useEffect(() => {
     getProfileData(id);
   }, [id]);
@@ -98,19 +97,29 @@ const {t} = useTranslation()
         </Box>
       )}
 
-      <Grid container spacing={4} justifyContent="center">
-        {userPosts && userPosts.length > 0 ? (
-          userPosts.map((post) => (
-            <Grid item xs={12} sm={6} md={6} key={post?._id}>
-              <PostCard post={post} />
-            </Grid>
-          ))
-        ) : (
-          <Typography variant="body1" padding={5} color="#fff">
-            {t("No posts available yet.")}
-          </Typography>
-        )}
-      </Grid>
+      <Box
+        sx={{
+          width: '100%',
+          maxWidth: 600,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Grid container spacing={2} justifyContent="center">
+          {userPosts && userPosts.length > 0 ? (
+            userPosts.map((post) => (
+              <Grid item xs={12} key={post?._id}>
+                <PostCard post={post} />
+              </Grid>
+            ))
+          ) : (
+            <Typography variant="body1" padding={5} color="#fff">
+              {t("No posts available yet.")}
+            </Typography>
+          )}
+        </Grid>
+      </Box>
     </Box>
   );
 }

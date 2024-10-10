@@ -2,10 +2,13 @@ import React, { useState } from 'react'
 import { useCreateCommentMutation } from '../../Redux/Api/commentApi';
 import { Box, TextField, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { incrementCommentCount } from '../../Redux/Slices/tokenSlice';
+import { useDispatch } from 'react-redux';
 
 export default function CommentInput({ postId }) {
     const [createComment] = useCreateCommentMutation();
     const [comment, setComment] = useState('');
+    const dispatch = useDispatch()
     const {t} = useTranslation()
 
     const handleCommentChange = (e) => {
@@ -15,6 +18,7 @@ export default function CommentInput({ postId }) {
     const handleCommentSubmit = async () => {
         try {
             await createComment({ postId, text: comment }).unwrap();
+           dispatch(incrementCommentCount(postId)) 
             setComment('');
         } catch (error) {
             console.error(error);
@@ -24,7 +28,7 @@ export default function CommentInput({ postId }) {
     return (
         <Box sx={{ mt: 2 }}>
             <TextField
-                label="Add a comment"
+                label={t("Add a comment")}
                 variant="outlined"
                 fullWidth
                 value={comment}
